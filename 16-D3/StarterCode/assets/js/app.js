@@ -46,6 +46,7 @@ function yScale(censusData, chosenYAxis){
     return yLinearScale;
 }
 
+//rendering Axises
 function renderXAxis(newXScale, xAxis) {
     bottomAxis = d3.axisBottom(newXScale);
     
@@ -64,4 +65,20 @@ function renderYAxis(newYScale, yAxis) {
     return yAxis;
 }
 
+//creating circlesGroup
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+    circlesGroup.transition()
+        .attr('cx', data => newXScale(data[chosenXAxis]))
+        .attr('cy', data => newYScale(data[chosenYAxis]))
+    
+    return circlesGroup;
+}
 
+//creating textGroup
+function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+    textGroup.transition()
+        .attr('x', d => newXScale(d[chosenXAxis]))
+        .attr('y', d => newYScale(d[chosenYAxis]));
+    
+    return textGroup;
+}
