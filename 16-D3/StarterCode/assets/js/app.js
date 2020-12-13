@@ -82,3 +82,15 @@ function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
     
     return textGroup;
 }
+
+function styleX(value, chosenXAxis) {
+    if (chosenXAxis === 'poverty') {
+        return `${value}%`;
+    }
+    else if (chosenXAxis === 'income') {
+        return `${value}`;
+    }
+    else {
+        return `${value}`;
+    }
+}
