@@ -83,6 +83,7 @@ function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
     return textGroup;
 }
 
+//if statements for values populated for the graphs
 function styleX(value, chosenXAxis) {
     if (chosenXAxis === 'poverty') {
         return `${value}%`;
@@ -94,3 +95,17 @@ function styleX(value, chosenXAxis) {
         return `${value}`;
     }
 }
+
+//creating toolTip
+var toolTip = d3.tip()
+    .attr('class', 'd3-tip)
+    .offset([-8, 0])
+          .html(function(d){
+        return (`${d.state}<br>${xLabel} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${yLabel} ${d[chosenYAxis]}%`);
+    });
+
+circlesGroup.call(toolTip);
+circlesGroup.on('mouseover', toolTip.show)
+          .on('mouseout', toolTip.hide);
+          
+          return circlesGroup;
