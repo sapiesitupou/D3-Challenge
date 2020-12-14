@@ -208,3 +208,51 @@ var incomeLabel = xLabelsGroup.append('text')
     .attr('y', 60)
     .attr('value', 'income')
     .text('Household Income (Median)');
+    
+var yLabelsGroup = chartGroup.append('g')
+          .attr('transform', `translate(${0 - margin.left/4}, ${height/2})`);
+    
+var healthcareLabel = yLabelsGroup.append('text')
+    .classed('aText', true)
+    .classed('active', true)
+    .attr('x', 0)
+    .attr('dy', -20)
+    .attr('transform', 'rotate(-90)')
+    .attr('value', 'healthcare')
+    .text('Without Healthcare (%)');
+    
+var smokesLabel = yLabelsGroup.append('text')
+    .classed('aText', true)
+    .classed('inactive', true)
+    .attr('x', 0)
+    .attr('dy', -40)
+    .attr('transform', 'rotate(-90)')
+    .attr('value', 'smokes')
+    .text('Smoker (%)');
+    
+var obesityLabel = yLabelsGroup.append('text')
+    .classed('aText', true)
+    .classed('inactive', true)
+    .attr('x', 0)
+    .attr('dy', -40)
+    .attr('transform', 'rotate(-90)')
+    .attr('value', 'smokes')
+    .text('Smoker (%)');
+    
+var circlesGroup =  updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+    
+xLabelsGroup.selectAll('text')
+    .on('click', function() {
+        var value = d3.select(this).attr('value');
+        
+        if (value != chosenXAxis) {
+            chosenXAxis = value;
+            xLinearScale = xScale(censusData, chosenXAxis);
+            xAxis = renderXAxis(xLinearScale, xAxis);
+            circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+            textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+            circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+            
+            
+        }
+    })
