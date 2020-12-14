@@ -96,20 +96,42 @@ function styleX(value, chosenXAxis) {
     }
 }
 
-//creating toolTip
-var toolTip = d3.tip()
-    .attr('class', 'd3-tip)
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
+
+    if (chosenXAxis === 'poverty') {
+      var xLabel = 'Poverty:';
+    }
+    else if (chosenXAxis === 'income'){
+      var xLabel = 'Median Income:';
+    }
+    else {
+      var xLabel = 'Age:';
+    }
+
+    if (chosenYAxis ==='healthcare') {
+    var yLabel = "No Healthcare:"
+    }
+    else if(chosenYAxis === 'obesity') {
+    var yLabel = 'Obesity:';
+    }
+    else{
+    var yLabel = 'Smokers:';
+    }
+
+  var toolTip = d3.tip()
+    .attr('class', 'd3-tip')
     .offset([-8, 0])
-          .html(function(d){
+    .html(function(d) {
         return (`${d.state}<br>${xLabel} ${styleX(d[chosenXAxis], chosenXAxis)}<br>${yLabel} ${d[chosenYAxis]}%`);
-    });
+  });
 
-circlesGroup.call(toolTip);
-circlesGroup.on('mouseover', toolTip.show)
-          .on('mouseout', toolTip.hide);
-          
-          return circlesGroup;
+  circlesGroup.call(toolTip);
 
+  circlesGroup.on('mouseover', toolTip.show)
+    .on('mouseout', toolTip.hide);
+
+    return circlesGroup;
+}
 //reading the csv file
 d3.csv('/assets/data/data.csv').then(function(censusData) {
         console.log(censusData);
@@ -123,3 +145,16 @@ d3.csv('/assets/data/data.csv').then(function(censusData) {
             data.poverty = +data.poverty;
             )
     });
+
+var xLinearScale = XScale(censusData, chosenXAxis);
+var yLinearScale = yScale(censusData, chosenYAxis);
+        
+var bottomAxis = d3.axsitBottom(xLinearScale);
+var leftAxis = d3.axisLeft(yLinearScale);
+        
+var xAxis = chartGroup.append('g')
+        .classed('x-axis', true)
+        .attr('transform', `translate(0, ${height})`)
+        .call(bottomAxis);
+        
+
